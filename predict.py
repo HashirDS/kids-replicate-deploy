@@ -24,7 +24,12 @@ class Predictor(BasePredictor):
         )
 
         # Load Adapter (LoRA)
-        self.model = PeftModel.from_pretrained(model, adapter_model_id)
+        # --- FIXED LINE BELOW: Added subfolder="Model" ---
+        self.model = PeftModel.from_pretrained(
+            model, 
+            adapter_model_id, 
+            subfolder="Model"
+        )
         self.model.eval()
 
     def predict(
