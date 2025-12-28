@@ -1,0 +1,14 @@
+# cog.yaml
+build:
+  gpu: true
+  python_version: "3.10"
+  python_packages:
+    - "torch"
+    - "transformers"
+    - "peft"
+    - "accelerate"  # Required for device_map="auto"
+    - "einops"      # Required for Phi-2
+    - "sentencepiece"
+
+# This line tells Replicate where your code is
+predict: "predict.py:Predictor"
