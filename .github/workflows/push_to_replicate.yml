@@ -13,6 +13,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # This step deletes pre-installed software to free up ~15GB of space
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space-action@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
       - name: Setup Cog
         uses: replicate/setup-cog@v2
         with:
