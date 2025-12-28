@@ -1,10 +1,10 @@
 name: Push to Replicate
 
 on:
-  workflow_dispatch:  # Allows you to click a button to run it
+  workflow_dispatch:
   push:
     branches:
-      - main          # Automatically push when you update 'main' branch
+      - main
 
 jobs:
   push:
@@ -13,17 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # This step deletes pre-installed software to free up ~15GB of space
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space-action@v1.3.1
-        with:
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
+      # === MANUAL CLEANUP STEP (No plugin required) ===
+      - name: Free Disk Space
+        run: |
+          echo "Listing free space before cleanup..."
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          echo "Listing free space after cleanup..."
+          df -h
+      # ================================================
 
       - name: Setup Cog
         uses: replicate/setup-cog@v2
